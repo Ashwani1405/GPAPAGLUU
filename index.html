@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPA_PAGLU</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif; /* Using Inter font */
+            background: linear-gradient(135deg, #1a1a2e, #0f0f1a); /* Gradient background */
+            color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        header {
+            background: linear-gradient(90deg, #0f3460, #16213e); /* Gradient header */
+            color: #a4fcff; /* Brighter accent for title */
+            padding: 1.5rem 0;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            border-bottom-left-radius: 15px;
+            border-bottom-right-radius: 15px;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 3rem;
+            letter-spacing: 3px;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.8);
+            font-weight: 700;
+        }
+
+        main {
+            flex: 1;
+            padding: 2.5rem;
+            max-width: 1200px;
+            margin: 2.5rem auto;
+            background-color: #2e2e4a;
+            border-radius: 15px; /* More rounded corners */
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 1.5s ease-out;
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: linear-gradient(45deg, #3e3e6f, #4a4a7a); /* Gradient for sections */
+            border-radius: 12px;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.5), 0 5px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease-in-out, opacity 0.8s ease-out; /* Added opacity transition */
+        }
+
+        section:hover {
+            transform: translateY(-5px);
+        }
+
+        h2 {
+            color: #a4fcff;
+            border-bottom: 3px solid #e94560; /* Thicker accent underline */
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        h3 {
+            color: #e0e0e0;
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            font-size: 1.6rem;
+            font-weight: 600;
+        }
+
+        .search-section {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        #enrollmentInput {
+            padding: 1rem 1.5rem;
+            border: 2px solid #0f3460;
+            border-radius: 8px; /* More rounded */
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 1.1rem;
+            flex-grow: 1;
+            max-width: 450px;
+            transition: border-color 0.4s ease, box-shadow 0.4s ease;
+            box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #enrollmentInput::placeholder {
+            color: #999;
+        }
+
+        #enrollmentInput:focus {
+            outline: none;
+            border-color: #e94560;
+            box-shadow: 0 0 15px rgba(233, 69, 96, 0.7), inset 0 0 8px rgba(233, 69, 96, 0.3);
+        }
+
+        #searchButton {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(45deg, #e94560, #c93550); /* Gradient button */
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        #searchButton:hover {
+            background: linear-gradient(45deg, #c93550, #e94560); /* Reverse gradient on hover */
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+        }
+
+        #searchButton:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.4);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate; /* For rounded corners on cells */
+            border-spacing: 0; /* Remove space between cells */
+            margin-top: 2rem;
+            background-color: #2e2e4a;
+            border-radius: 12px; /* More rounded table */
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        }
+
+        th, td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #1a1a2e;
+            transition: background-color 0.3s ease;
+        }
+
+        th {
+            background: linear-gradient(90deg, #0f3460, #16213e); /* Gradient for table headers */
+            color: #a4fcff;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 1rem;
+            position: sticky;
+            top: 0; /* For sticky headers if table scrolls */
+        }
+
+        /* Rounded corners for table headers */
+        th:first-child {
+            border-top-left-radius: 12px;
+        }
+        th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #38385a;
+        }
+
+        tr:hover {
+            background-color: #4a4a7a;
+            transform: scale(1.01); /* Subtle zoom on hover */
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        td input[type="number"] {
+            width: 90px; /* Slightly wider */
+            padding: 0.6rem;
+            border: 1px solid #0f3460;
+            border-radius: 6px; /* Rounded */
+            background-color: #1a1a2e;
+            color: #e0e0e0;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        td input[type="number"]:focus {
+            outline: none;
+            border-color: #a4fcff;
+            box-shadow: 0 0 10px rgba(164, 252, 255, 0.5);
+        }
+
+        .note {
+            font-style: italic;
+            color: #bbb;
+            margin-top: -1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 0.95rem;
+        }
+
+        .error-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background-color: #5a1a1a; /* Reddish background for errors */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.4);
+        }
+
+        .error-message {
+            color: #ffcccc; /* Lighter red text */
+            font-weight: bold;
+            font-size: 1.2rem;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem 0;
+            background: linear-gradient(90deg, #0f3460, #16213e);
+            color: #a4fcff;
+            margin-top: auto;
+            box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.6);
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        /* Keyframe Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+            20%, 40%, 60%, 80% { transform: translateX(5px); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            main {
+                padding: 2rem;
+                margin: 2rem auto;
+            }
+            h1 {
+                font-size: 2.5rem;
+            }
+            h2 {
+                font-size: 1.8rem;
+            }
+            section {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            .search-section {
+                flex-direction: column;
+                align-items: center;
+                gap: 1rem;
+            }
+            #enrollmentInput {
+                max-width: 100%;
+                margin-bottom: 0.5rem;
+                font-size: 1rem;
+                padding: 0.8rem 1rem;
+            }
+            #searchButton {
+                width: 100%;
+                font-size: 1rem;
+                padding: 0.8rem 1.5rem;
+            }
+            th, td {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+            td input[type="number"] {
+                width: 70px;
+                padding: 0.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            main {
+                padding: 1rem;
+                margin: 1rem auto;
+            }
+            h1 {
+                font-size: 1.8rem;
+            }
+            h2 {
+                font-size: 1.3rem;
+            }
+            th, td {
+                padding: 0.7rem;
+                font-size: 0.8rem;
+            }
+            td input[type="number"] {
+                width: 55px;
+                padding: 0.4rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>GPA_PAGLU</h1>
+    </header>
+    <main>
+        <section class="search-section">
+            <input type="text" id="enrollmentInput" placeholder="Enter Roll Number (e.g., 01414815624)">
+            <button id="searchButton">Search</button>
+        </section>
+
+        <section class="student-details-section" id="studentDetails" style="display: none;">
+            <h2>Student Details</h2>
+            <p><strong>Name:</strong> <span id="studentName"></span></p>
+            <p><strong>Enrollment:</strong> <span id="studentEnrollment"></span></p>
+            <p><strong>Semester:</strong> <span id="studentSemester"></span></p>
+
+            <h3>Internal Marks (Out of 40)</h3>
+            <table id="internalMarksTable">
+                <thead>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Internal Marks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+
+        <section class="gpa-calculation-section" id="gpaCalculationSection" style="display: none;">
+            <h2>GPA Calculation for Key Subjects (External Marks Needed)</h2>
+            <p class="note">Enter your desired GPA (Grade Point) for each subject and see how many marks you need in externals (out of 60).</p>
+            <table id="gpaCalculationTable">
+                <thead>
+                    <tr>
+                        <th>Subject Code</th>
+                        <th>Subject Name</th>
+                        <th>Internal Marks</th>
+                        <th>Desired GPA</th>
+                        <th>Required External Marks (Out of 60)</th>
+                        <th>Total Marks for Desired GPA</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+        </section>
+
+        <section class="error-section" id="errorSection" style="display: none;">
+            <p id="errorMessage" class="error-message"></p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 GPA_PAGLU. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const studentData = [
+            
+  {
+    "enrollment": "00114815724",
+    "name": "PIYUSH AGGARWAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 44,
+      "BS104": 34,
+      "BS106": 42,
+      "ES108": 35,
+      "BS112": 35,
+      "HS116": 94,
+      "HS118": 72,
+      "BS152": 36,
+      "BS156": 37,
+      "ES158": 39,
+      "ES160": 39,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "00214815724",
+    "name": "PRITHVI RAJ SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 33,
+      "BS106": 28,
+      "ES108": 29,
+      "BS112": 32,
+      "HS116": 60,
+      "HS118": 66,
+      "BS152": 32,
+      "BS156": 30,
+      "ES158": 20,
+      "ES160": 21,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "00314815724",
+    "name": "AMAN PUROHIT",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 35,
+      "BS106": 37,
+      "ES108": 31,
+      "BS112": 37,
+      "HS116": 96,
+      "HS118": 95,
+      "BS152": 40,
+      "BS156": 38,
+      "ES158": 40,
+      "ES160": 38,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "00414815724",
+    "name": "SHREYANSH POKHRIYAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 38,
+      "BS106": 37,
+      "ES108": 36,
+      "BS112": 39,
+      "HS116": 96,
+      "HS118": 97,
+      "BS152": 36,
+      "BS156": 29,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 33
+    }
+  },
+  {
+    "enrollment": "00514815724",
+    "name": "TWISHA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 40,
+      "BS106": 35,
+      "ES108": 36,
+      "BS112": 39,
+      "HS116": 95,
+      "HS118": 98,
+      "BS152": 37,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 38,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "00614815724",
+    "name": "AADI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 31,
+      "BS104": 29,
+      "BS106": 12,
+      "ES108": 30,
+      "BS112": 25,
+      "HS116": 98,
+      "HS118": 88,
+      "BS152": 32,
+      "BS156": 38,
+      "ES158": 38,
+      "ES160": 34,
+      "ES164": 36
+    }
+  },
+  {
+    "enrollment": "00714815724",
+    "name": "UJJWAL AGRAWAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 40,
+      "BS106": 39,
+      "ES108": 38,
+      "BS112": 39,
+      "HS116": 98,
+      "HS118": 95,
+      "BS152": 39,
+      "BS156": 38,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 39
+    }
+  },
+  {
+    "enrollment": "00814815724",
+    "name": "KUNJ GARG",
+    "semester": 2,
+    "subjects": {
+      "ES114": 51,
+      "BS104": 37,
+      "BS106": 22,
+      "ES108": 16,
+      "BS112": 33,
+      "HS116": 80,
+      "HS118": 60,
+      "BS152": 36,
+      "BS156": 31,
+      "ES158": 23,
+      "ES160": 23,
+      "ES164": 22
+    }
+  },
+  {
+    "enrollment": "00914815724",
+    "name": "NAMANPREET SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 38,
+      "BS104": 33,
+      "BS106": 27,
+      "ES108": 36,
+      "BS112": 36,
+      "HS116": 94,
+      "HS118": 93,
+      "BS152": 36,
+      "BS156": 40,
+      "ES158": 35,
+      "ES160": 40,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "01014815724",
+    "name": "NAMAN JAIN",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 38,
+      "BS106": 29,
+      "ES108": 30,
+      "BS112": 40,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 38,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 38,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "01114815724",
+    "name": "ABBAS MEHDI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 36,
+      "BS106": 30,
+      "ES108": 21,
+      "BS112": 33,
+      "HS116": 95,
+      "HS118": 95,
+      "BS152": 35,
+      "BS156": 32,
+      "ES158": 31,
+      "ES160": 37,
+      "ES164": 31
+    }
+  },
+  {
+    "enrollment": "01214815724",
+    "name": "PRERIT SHARMA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 32,
+      "BS106": 33,
+      "ES108": 32,
+      "BS112": 34,
+      "HS116": 97,
+      "HS118": 97,
+      "BS152": 36,
+      "BS156": 36,
+      "ES158": 35,
+      "ES160": 40,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "01314815724",
+    "name": "KRISHNA SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 33,
+      "BS106": 27,
+      "ES108": 31,
+      "BS112": 29,
+      "HS116": 96,
+      "HS118": 95,
+      "BS152": 36,
+      "BS156": 37,
+      "ES158": 34,
+      "ES160": 40,
+      "ES164": 30
+    }
+  },
+  {
+    "enrollment": "01414815724",
+    "name": "SAYAN KUNDU",
+    "semester": 2,
+    "subjects": {
+      "ES114": 36,
+      "BS104": 37,
+      "BS106": 31,
+      "ES108": 31,
+      "BS112": 34,
+      "HS116": 96,
+      "HS118": 97,
+      "BS152": 39,
+      "BS156": 38,
+      "ES158": 33,
+      "ES160": 40,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "01514815724",
+    "name": "ROMIT JAIN",
+    "semester": 2,
+    "subjects": {
+      "ES114": 36,
+      "BS104": 29,
+      "BS106": 29,
+      "ES108": 26,
+      "BS112": 36,
+      "HS116": 88,
+      "HS118": 60,
+      "BS152": 36,
+      "BS156": 33,
+      "ES158": 39,
+      "ES160": 25,
+      "ES164": 30
+    }
+  },
+  {
+    "enrollment": "01614815724",
+    "name": "HARSHIT NIJHAWAN",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 33,
+      "BS106": 34,
+      "ES108": 37,
+      "BS112": 39,
+      "HS116": 96,
+      "HS118": 90,
+      "BS152": 36,
+      "BS156": 36,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 33
+    }
+  },
+  {
+    "enrollment": "01714815724",
+    "name": "SWAYAM",
+    "semester": 2,
+    "subjects": {
+      "ES114": 34,
+      "BS104": 34,
+      "BS106": 30,
+      "ES108": 33,
+      "BS112": 34,
+      "HS116": 60,
+      "HS118": 95,
+      "BS152": 36,
+      "BS156": 36,
+      "ES158": 25,
+      "ES160": 22,
+      "ES164": 29
+    }
+  },
+  {
+    "enrollment": "01814815724",
+    "name": "SHAGUN CHADHA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 34,
+      "BS106": 36,
+      "ES108": 29,
+      "BS112": 33,
+      "HS116": 98,
+      "HS118": 99,
+      "BS152": 40,
+      "BS156": 33,
+      "ES158": 38,
+      "ES160": 33,
+      "ES164": 31
+    }
+  },
+  {
+    "enrollment": "01914815724",
+    "name": "AADITYA ANAND",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 32,
+      "BS106": 30,
+      "ES108": 26,
+      "BS112": 29,
+      "HS116": 92,
+      "HS118": 70,
+      "BS152": 37,
+      "BS156": 32,
+      "ES158": 32,
+      "ES160": 34,
+      "ES164": 28
+    }
+  },
+  {
+    "enrollment": "02014815724",
+    "name": "VASUDEV SHUKLA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 32,
+      "BS106": 31,
+      "ES108": 25,
+      "BS112": 32,
+      "HS116": 87,
+      "HS118": 100,
+      "BS152": 36,
+      "BS156": 36,
+      "ES158": 36,
+      "ES160": 34,
+      "ES164": 30
+    }
+  },
+  {
+    "enrollment": "02114815724",
+    "name": "AKSHAT KAKKAR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 40,
+      "BS106": 33,
+      "ES108": 36,
+      "BS112": 35,
+      "HS116": 87,
+      "HS118": 93,
+      "BS152": 37,
+      "BS156": 38,
+      "ES158": 37,
+      "ES160": 35,
+      "ES164": 31
+    }
+  },
+  {
+    "enrollment": "02214815724",
+    "name": "SUMIT BHATT",
+    "semester": 2,
+    "subjects": {
+      "ES114": 21,
+      "BS104": 26,
+      "BS106": 34,
+      "ES108": 25,
+      "BS112": 34,
+      "HS116": 86,
+      "HS118": 85,
+      "BS152": 36,
+      "BS156": 32,
+      "ES158": 28,
+      "ES160": 22,
+      "ES164": 27
+    }
+  },
+  {
+    "enrollment": "02314815724",
+    "name": "VANSH BAHL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 36,
+      "BS104": 39,
+      "BS106": 31,
+      "ES108": 32,
+      "BS112": 37,
+      "HS116": 92,
+      "HS118": 90,
+      "BS152": 39,
+      "BS156": 30,
+      "ES158": 36,
+      "ES160": 33,
+      "ES164": 29
+    }
+  },
+  {
+    "enrollment": "02414815724",
+    "name": "NITIN KUMAR SARASWAT",
+    "semester": 2,
+    "subjects": {
+      "ES114": 20,
+      "BS104": 29,
+      "BS106": 25,
+      "ES108": 21,
+      "BS112": 31,
+      "HS116": 68,
+      "HS118": 60,
+      "BS152": 36,
+      "BS156": 20,
+      "ES158": 22,
+      "ES160": 22,
+      "ES164": 22
+    }
+  },
+  {
+    "enrollment": "02514815724",
+    "name": "NISHANK GUPTA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 31,
+      "BS104": 29,
+      "BS106": 20,
+      "ES108": 21,
+      "BS112": 27,
+      "HS116": 84,
+      "HS118": 70,
+      "BS152": 36,
+      "BS156": 20,
+      "ES158": 29,
+      "ES160": 32,
+      "ES164": 22
+    }
+  },
+  {
+    "enrollment": "02614815724",
+    "name": "BHARTI BHATTI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 38,
+      "BS104": 34,
+      "BS106": 29,
+      "ES108": 33,
+      "BS112": 34,
+      "HS116": 89,
+      "HS118": 95,
+      "BS152": 38,
+      "BS156": 32,
+      "ES158": 33,
+      "ES160": 35,
+      "ES164": 29
+    }
+  },
+  {
+    "enrollment": "02714815724",
+    "name": "DEVAANSH THAREJA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 30,
+      "BS106": 25,
+      "ES108": 25,
+      "BS112": 33,
+      "HS116": 60,
+      "HS118": 60,
+      "BS152": 37,
+      "BS156": 20,
+      "ES158": 23,
+      "ES160": 22,
+      "ES164": 28
+    }
+  },
+  {
+    "enrollment": "02814815724",
+    "name": "PRANEEL MAITRA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 35,
+      "BS106": 36,
+      "ES108": 36,
+      "BS112": 34,
+      "HS116": 92,
+      "HS118": 95,
+      "BS152": 39,
+      "BS156": 31,
+      "ES158": 33,
+      "ES160": 25,
+      "ES164": 25
+    }
+  },
+  {
+    "enrollment": "02914815724",
+    "name": "ARYAN GARG",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 40,
+      "BS106": 39,
+      "ES108": 34,
+      "BS112": 38,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 39,
+      "BS156": 37,
+      "ES158": 38,
+      "ES160": 39,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "03014815724",
+    "name": "AARUSH ARORA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 33,
+      "BS106": 26,
+      "ES108": 37,
+      "BS112": 40,
+      "HS116": 94,
+      "HS118": 96,
+      "BS152": 37,
+      "BS156": 24,
+      "ES158": 40,
+      "ES160": 37,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "03114815724",
+    "name": "SUKHMAN SINGH SETHI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 37,
+      "BS104": 34,
+      "BS106": 35,
+      "ES108": 36,
+      "BS112": 30,
+      "HS116": 98,
+      "HS118": 94,
+      "BS152": 34,
+      "BS156": 34,
+      "ES158": 39,
+      "ES160": 37,
+      "ES164": 36
+    }
+  },
+  {
+    "enrollment": "03214815724",
+    "name": "ADARSH SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 29,
+      "BS106": 29,
+      "ES108": 36,
+      "BS112": 40,
+      "HS116": 98,
+      "HS118": 89,
+      "BS152": 40,
+      "BS156": 37,
+      "ES158": 38,
+      "ES160": 37,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "03314815724",
+    "name": "ISHIKA BANSAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 34,
+      "BS106": 34,
+      "ES108": 40,
+      "BS112": 40,
+      "HS116": 88,
+      "HS118": 95,
+      "BS152": 33,
+      "BS156": 40,
+      "ES158": 39,
+      "ES160": 39,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "03414815724",
+    "name": "SUJAL JAIN",
+    "semester": 2,
+    "subjects": {
+      "ES114": 38,
+      "BS104": 22,
+      "BS106": 21,
+      "ES108": 40,
+      "BS112": 38,
+      "HS116": 93,
+      "HS118": 86,
+      "BS152": 35,
+      "BS156": 38,
+      "ES158": 40,
+      "ES160": 30,
+      "ES164": 32
+    }
+  },
+  {
+    "enrollment": "03514815724",
+    "name": "KRISHNA BHATIA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 36,
+      "BS104": 35,
+      "BS106": 31,
+      "ES108": 37,
+      "BS112": 40,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 32,
+      "BS156": 37,
+      "ES158": 40,
+      "ES160": 39,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "03614815724",
+    "name": "ROHAN SINGHAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 34,
+      "BS104": 29,
+      "BS106": 27,
+      "ES108": 31,
+      "BS112": 38,
+      "HS116": 92,
+      "HS118": 60,
+      "BS152": 26,
+      "BS156": 40,
+      "ES158": 38,
+      "ES160": 33,
+      "ES164": 37
+    }
+  },
+  {
+    "enrollment": "03714815724",
+    "name": "ANUBHAV BANSAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 29,
+      "BS106": 24,
+      "ES108": 36,
+      "BS112": 32,
+      "HS116": 100,
+      "HS118": 100,
+      "BS152": 35,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 38,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "03914815724",
+    "name": "OJAS SETIA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 25,
+      "BS106": 18,
+      "ES108": 34,
+      "BS112": 22,
+      "HS116": 92,
+      "HS118": 76,
+      "BS152": 30,
+      "BS156": 36,
+      "ES158": 40,
+      "ES160": 33,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "04014815724",
+    "name": "PRASHANT",
+    "semester": 2,
+    "subjects": {
+      "ES114": 37,
+      "BS104": 37,
+      "BS106": 35,
+      "ES108": 39,
+      "BS112": 39,
+      "HS116": 93,
+      "HS118": 97,
+      "BS152": 40,
+      "BS156": 37,
+      "ES158": 39,
+      "ES160": 38,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "35214815624",
+    "name": "SURBHI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 36,
+      "BS106": 36,
+      "ES108": 36,
+      "BS112": 37,
+      "HS116": 100,
+      "HS118": 96,
+      "BS152": 40,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 36,
+      "ES164": 39
+    }
+  },
+  {
+    "enrollment": "35314815624",
+    "name": "ARYAN GUPTA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 40,
+      "BS106": 38,
+      "ES108": 38,
+      "BS112": 38,
+      "HS116": 96,
+      "HS118": 98,
+      "BS152": 39,
+      "BS156": 39,
+      "ES158": 38,
+      "ES160": 40,
+      "ES164": 39
+    }
+  },
+  {
+    "enrollment": "35414815624",
+    "name": "ADITYA KUMAR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 40,
+      "BS106": 39,
+      "ES108": 39,
+      "BS112": 40,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 40,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 39,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "35514815624",
+    "name": "ANSH CHAUDHARY",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 40,
+      "BS106": 40,
+      "ES108": 40,
+      "BS112": 40,
+      "HS116": 99,
+      "HS118": 98,
+      "BS152": 39,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "35614815624",
+    "name": "AYUSH SHUKLA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 31,
+      "BS106": 31,
+      "ES108": 31,
+      "BS112": 37,
+      "HS116": 98,
+      "HS118": 95,
+      "BS152": 37,
+      "BS156": 34,
+      "ES158": 38,
+      "ES160": 37,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "75114815624",
+    "name": "ARYAN KUMAR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 31,
+      "BS104": 29,
+      "BS106": 28,
+      "ES108": 17,
+      "BS112": 33,
+      "HS116": 95,
+      "HS118": 60,
+      "BS152": 31,
+      "BS156": 32,
+      "ES158": 28,
+      "ES160": 32,
+      "ES164": 22
+    }
+  },
+  {
+    "enrollment": "75214815624",
+    "name": "VIVEK CHOUDHARY",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 37,
+      "BS106": 28,
+      "ES108": 28,
+      "BS112": 34,
+      "HS116": 94,
+      "HS118": 90,
+      "BS152": 31,
+      "BS156": 39,
+      "ES158": 39,
+      "ES160": 40,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "02714815624",
+    "name": "AYAMIK SHARMA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 36,
+      "BS106": 32,
+      "ES108": 30,
+      "BS112": 37,
+      "HS116": 96,
+      "HS118": 97,
+      "BS152": 38,
+      "BS156": 37,
+      "ES158": 32,
+      "ES160": 32,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "02814815624",
+    "name": "PARTH ARORA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 37,
+      "BS106": 38,
+      "ES108": 39,
+      "BS112": 39,
+      "HS116": 100,
+      "HS118": 100,
+      "BS152": 38,
+      "BS156": 39,
+      "ES158": 39,
+      "ES160": 40,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "02914815624",
+    "name": "PARTH GARG",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 38,
+      "BS106": 38,
+      "ES108": 37,
+      "BS112": 40,
+      "HS116": 98,
+      "HS118": 99,
+      "BS152": 40,
+      "BS156": 40,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "03014815624",
+    "name": "MADHVAN AGGARWAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 36,
+      "BS104": 36,
+      "BS106": 24,
+      "ES108": 21,
+      "BS112": 31,
+      "HS116": 83,
+      "HS118": 60,
+      "BS152": 30,
+      "BS156": 37,
+      "ES158": 36,
+      "ES160": 33,
+      "ES164": 33
+    }
+  },
+  {
+    "enrollment": "03114815624",
+    "name": "KHUSHAL SACHDEVA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 34,
+      "BS106": 33,
+      "ES108": 31,
+      "BS112": 34,
+      "HS116": 89,
+      "HS118": 98,
+      "BS152": 35,
+      "BS156": 37,
+      "ES158": 33,
+      "ES160": 39,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "03214815624",
+    "name": "UTKARSH KUMAR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 30,
+      "BS104": 34,
+      "BS106": 28,
+      "ES108": 21,
+      "BS112": 27,
+      "HS116": 86,
+      "HS118": 70,
+      "BS152": 30,
+      "BS156": 36,
+      "ES158": 33,
+      "ES160": 27,
+      "ES164": 20
+    }
+  },
+  {
+    "enrollment": "03314815624",
+    "name": "PRACHI UPRETI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 35,
+      "BS106": 30,
+      "ES108": 37,
+      "BS112": 33,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 30,
+      "BS156": 37,
+      "ES158": 30,
+      "ES160": 40,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "03414815624",
+    "name": "KRISHNA TIWARI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 38,
+      "BS104": 31,
+      "BS106": 33,
+      "ES108": 31,
+      "BS112": 34,
+      "HS116": 94,
+      "HS118": 97,
+      "BS152": 40,
+      "BS156": 35,
+      "ES158": 39,
+      "ES160": 35,
+      "ES164": 35
+    }
+  },
+  {
+    "enrollment": "03514815624",
+    "name": "SHIVANAND RAY",
+    "semester": 2,
+    "subjects": {
+      "ES114": 38,
+      "BS104": 35,
+      "BS106": 28,
+      "ES108": 25,
+      "BS112": 33,
+      "HS116": 98,
+      "HS118": 95,
+      "BS152": 40,
+      "BS156": 36,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "03614815624",
+    "name": "GURMANNAT SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 34,
+      "BS104": 35,
+      "BS106": 33,
+      "ES108": 30,
+      "BS112": 33,
+      "HS116": 95,
+      "HS118": 97,
+      "BS152": 33,
+      "BS156": 37,
+      "ES158": 32,
+      "ES160": 36,
+      "ES164": 26
+    }
+  },
+  {
+    "enrollment": "03714815624",
+    "name": "YASH NAGPAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 39,
+      "BS104": 36,
+      "BS106": 37,
+      "ES108": 33,
+      "BS112": 39,
+      "HS116": 91,
+      "HS118": 98,
+      "BS152": 40,
+      "BS156": 38,
+      "ES158": 32,
+      "ES160": 38,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "03814815624",
+    "name": "HARSH WADHWA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 37,
+      "BS106": 40,
+      "ES108": 34,
+      "BS112": 38,
+      "HS116": 98,
+      "HS118": 90,
+      "BS152": 40,
+      "BS156": 38,
+      "ES158": 35,
+      "ES160": 40,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "03914815624",
+    "name": "SUTANU KUMAR DAS",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 34,
+      "BS106": 29,
+      "ES108": 23,
+      "BS112": 32,
+      "HS116": 94,
+      "HS118": 99,
+      "BS152": 33,
+      "BS156": 35,
+      "ES158": 36,
+      "ES160": 34,
+      "ES164": 24
+    }
+  },
+  {
+    "enrollment": "01414815624",
+    "name": "RIDHI",
+    "semester": 2,
+    "subjects": {
+      "ES114": 29,
+      "BS104": 29,
+      "BS106": 25,
+      "ES108": 23,
+      "BS112": 30,
+      "HS116": 98,
+      "HS118": 97,
+      "BS152": 32,
+      "BS156": 36,
+      "ES158": 39,
+      "ES160": 37,
+      "ES164": 34
+    }
+  },
+  {
+    "enrollment": "01514815624",
+    "name": "KSHITIZ",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 36,
+      "BS106": 35,
+      "ES108": 32,
+      "BS112": 39,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 38,
+      "BS156": 39,
+      "ES158": 38,
+      "ES160": 35,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "01614815624",
+    "name": "AGRIM SHARMA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 34,
+      "BS104": 35,
+      "BS106": 35,
+      "ES108": 31,
+      "BS112": 33,
+      "HS116": 100,
+      "HS118": 100,
+      "BS152": 40,
+      "BS156": 38,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "01714815624",
+    "name": "HEMANT KHURANA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 37,
+      "BS104": 33,
+      "BS106": 36,
+      "ES108": 35,
+      "BS112": 34,
+      "HS116": 91,
+      "HS118": 60,
+      "BS152": 30,
+      "BS156": 35,
+      "ES158": 27,
+      "ES160": 34,
+      "ES164": 36
+    }
+  },
+  {
+    "enrollment": "01814815624",
+    "name": "PRAGUN BATRA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 30,
+      "BS104": 29,
+      "BS106": 25,
+      "ES108": 21,
+      "BS112": 34,
+      "HS116": 60,
+      "HS118": 62,
+      "BS152": 29,
+      "BS156": 32,
+      "ES158": 27,
+      "ES160": 35,
+      "ES164": 28
+    }
+  },
+  {
+    "enrollment": "01914815624",
+    "name": "NIKHIL KANT VASHISHTH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 37,
+      "BS104": 37,
+      "BS106": 31,
+      "ES108": 36,
+      "BS112": 35,
+      "HS116": 96,
+      "HS118": 95,
+      "BS152": 28,
+      "BS156": 39,
+      "ES158": 32,
+      "ES160": 37,
+      "ES164": 38
+    }
+  },
+  {
+    "enrollment": "02014815624",
+    "name": "ASHWANI KUMAR JHA",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 33,
+      "BS106": 32,
+      "ES108": 28,
+      "BS112": 35,
+      "HS116": 94,
+      "HS118": 95,
+      "BS152": 30,
+      "BS156": 34,
+      "ES158": 35,
+      "ES160": 36,
+      "ES164": 33
+    }
+  },
+  {
+    "enrollment": "02114815624",
+    "name": "KARAN BANSAL",
+    "semester": 2,
+    "subjects": {
+      "ES114": 40,
+      "BS104": 37,
+      "BS106": 32,
+      "ES108": 28,
+      "BS112": 34,
+      "HS116": 98,
+      "HS118": 98,
+      "BS152": 33,
+      "BS156": 39,
+      "ES158": 40,
+      "ES160": 40,
+      "ES164": 40
+    }
+  },
+  {
+    "enrollment": "02214815624",
+    "name": "RISHAB JAIN",
+    "semester": 2,
+    "subjects": {
+      "ES114": 32,
+      "BS104": 34,
+      "BS106": 30,
+      "ES108": 28,
+      "BS112": 37,
+      "HS116": 89,
+      "HS118": 80,
+      "BS152": 30,
+      "BS156": 36,
+      "ES158": 34,
+      "ES160": 36,
+      "ES164": 33
+    }
+  },
+  {
+    "enrollment": "02314815624",
+    "name": "PRIYANSHU SINGH",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 31,
+      "BS106": 28,
+      "ES108": 21,
+      "BS112": 28,
+      "HS116": 91,
+      "HS118": 60,
+      "BS152": 30,
+      "BS156": 33,
+      "ES158": 29,
+      "ES160": 27,
+      "ES164": 28
+    }
+  },
+  {
+    "enrollment": "02414815624",
+    "name": "TEJAS SINGH KAPUR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 35,
+      "BS104": 31,
+      "BS106": 29,
+      "ES108": 22,
+      "BS112": 29,
+      "HS116": 93,
+      "HS118": 90,
+      "BS152": 30,
+      "BS156": 35,
+      "ES158": 30,
+      "ES160": 34,
+      "ES164": 30
+    }
+  },
+  {
+    "enrollment": "02514815624",
+    "name": "ANSH RAWAT",
+    "semester": 2,
+    "subjects": {
+      "ES114": 33,
+      "BS104": 33,
+      "BS106": 32,
+      "ES108": 28,
+      "BS112": 31,
+      "HS116": 89,
+      "HS118": 70,
+      "BS152": 29,
+      "BS156": 36,
+      "ES158": 27,
+      "ES160": 32,
+      "ES164": 31
+    }
+  },
+  {
+    "enrollment": "02614815624",
+    "name": "VIJAY NAGAR",
+    "semester": 2,
+    "subjects": {
+      "ES114": 31,
+      "BS104": 30,
+      "BS106": 26,
+      "ES108": 24,
+      "BS112": 33,
+      "HS116": 73,
+      "HS118": 70,
+      "BS152": 22,
+      "BS156": 32,
+      "ES158": 27,
+      "ES160": 35,
+      "ES164": 26
+    }
+  }
+]
+
+        // Mapping subject codes to full names for display
+        const subjectNames = {
+            "ES114": "Engineering Mechanics",
+            "BS104": "Applied Chemistry",
+            "BS106": "Applied Physics II",
+            "ES108": "Electrical Sciences",
+            "BS112": "Engineering Mathematics",
+            "HS116": "Professional Communication",
+            "HS118": "Applied Psychology",
+            "BS152": "Applied Physics II Lab",
+            "BS156": "Applied Chemistry Lab",
+            "ES158": "Electrical Sciences Lab",
+            "ES160": "Engineering Mechanics Lab",
+            "ES164": "Workshop Practice"
+        };
+
+        // Subjects for GPA calculation (from user's request)
+        const gpaCalculationSubjects = ["BS106", "BS104", "ES114", "ES108", "BS112"];
+
+        // Grade Point mapping as per the provided screenshot
+        const gradePoints = [
+            { minMarks: 90, maxMarks: 100, grade: "O", point: 10 },
+            { minMarks: 75, maxMarks: 89, grade: "A+", point: 9 },
+            { minMarks: 65, maxMarks: 74, grade: "A", point: 8 },
+            { minMarks: 55, maxMarks: 64, grade: "B+", point: 7 },
+            { minMarks: 50, maxMarks: 54, grade: "B", point: 6 },
+            { minMarks: 45, maxMarks: 49, grade: "C", point: 5 },
+            { minMarks: 40, maxMarks: 44, grade: "P", point: 4 },
+            { minMarks: 0, maxMarks: 39, grade: "F", point: 0 } // Including "Less than 40 or absent"
+        ];
+
+
+        // DOM Elements
+        const enrollmentInput = document.getElementById("enrollmentInput");
+        const searchButton = document.getElementById("searchButton");
+        const studentDetailsSection = document.getElementById("studentDetails");
+        const studentNameSpan = document.getElementById("studentName");
+        const studentEnrollmentSpan = document.getElementById("studentEnrollment");
+        const studentSemesterSpan = document.getElementById("studentSemester");
+        const internalMarksTableBody = document.querySelector("#internalMarksTable tbody");
+        const gpaCalculationSection = document.getElementById("gpaCalculationSection");
+        const gpaCalculationTableBody = document.querySelector("#gpaCalculationTable tbody");
+        const errorSection = document.getElementById("errorSection");
+        const errorMessageSpan = document.getElementById("errorMessage");
+
+        // Function to get grade point from total marks
+        function getGradePoint(totalMarks) {
+            if (totalMarks > 100) totalMarks = 100; // Cap at 100 marks
+            if (totalMarks < 0) totalMarks = 0;   // Floor at 0 marks
+
+            for (const range of gradePoints) {
+                if (totalMarks >= range.minMarks && totalMarks <= range.maxMarks) {
+                    return range.point;
+                }
+            }
+            return 0; // Should not happen if ranges are comprehensive
+        }
+
+        // Function to get grade from grade point (or total marks directly for F)
+        function getGrade(totalMarks) {
+            if (totalMarks > 100) totalMarks = 100;
+            if (totalMarks < 0) totalMarks = 0;
+
+            for (const range of gradePoints) {
+                if (totalMarks >= range.minMarks && totalMarks <= range.maxMarks) {
+                    return range.grade;
+                }
+            }
+            return "F"; // Default for out of range, should be caught by above
+        }
+
+        // Function to calculate required external marks
+        function calculateRequiredExternalMarks(internalMarks, desiredGpaPoint) {
+            // Total marks needed for the desired GPA point
+            let minTotalMarksForDesiredGpa = 0;
+
+            // Find the minimum total marks required for the desired GPA point
+            // We iterate through gradePoints in reverse to find the lowest possible total marks for a given grade point
+            for (let i = gradePoints.length - 1; i >= 0; i--) {
+                const range = gradePoints[i];
+                if (range.point === desiredGpaPoint) {
+                    minTotalMarksForDesiredGpa = range.minMarks;
+                    break;
+                }
+            }
+
+            if (minTotalMarksForDesiredGpa === 0 && desiredGpaPoint !== 0) {
+                // If desired GPA point is not 0 and no minMarks found (e.g., invalid GPA input)
+                return {
+                    externalMarks: "N/A",
+                    totalMarks: "N/A",
+                    remarks: "Invalid Desired GPA"
+                };
+            }
+
+            const requiredTotalMarks = Math.max(minTotalMarksForDesiredGpa, 0); // Ensure non-negative total marks
+
+            let requiredExternal = requiredTotalMarks - internalMarks;
+
+            // External marks are out of 60.
+            // If requiredExternal is negative, it means internal marks are already very high,
+            // so 0 external marks are enough.
+            // If requiredExternal is more than 60, it's impossible to achieve the target GPA.
+            let remarks = "";
+            if (requiredExternal < 0) {
+                requiredExternal = 0;
+                remarks = "Achievable with 0 external marks or less";
+            } else if (requiredExternal > 60) {
+                remarks = `Impossible to achieve ${desiredGpaPoint} GPA (Max External: 60)`;
+            } else {
+                remarks = "Possible";
+            }
+
+            // Ensure external marks are within 0-60 range for display
+            requiredExternal = Math.min(Math.max(0, requiredExternal), 60);
+
+            return {
+                externalMarks: requiredExternal.toFixed(0), // Round to nearest whole number
+                totalMarks: internalMarks + requiredExternal,
+                remarks: remarks
+            };
+        }
+
+
+        // Function to display student data
+        function displayStudentData(student) {
+            // Clear previous data
+            internalMarksTableBody.innerHTML = "";
+            gpaCalculationTableBody.innerHTML = "";
+            errorSection.style.display = "none";
+
+            // Hide sections initially for fade-in effect
+            studentDetailsSection.style.opacity = 0;
+            gpaCalculationSection.style.opacity = 0;
+            studentDetailsSection.style.display = "block";
+            gpaCalculationSection.style.display = "block";
+
+            // Trigger reflow to ensure animation plays
+            void studentDetailsSection.offsetWidth;
+            void gpaCalculationSection.offsetWidth;
+
+            // Set opacity to 1 to trigger fade-in
+            studentDetailsSection.style.opacity = 1;
+            gpaCalculationSection.style.opacity = 1;
+
+
+            // Populate student details
+            studentNameSpan.textContent = student.name;
+            studentEnrollmentSpan.textContent = student.enrollment;
+            studentSemesterSpan.textContent = student.semester;
+
+            // Populate internal marks table
+            for (const subjectCode in student.subjects) {
+                const row = internalMarksTableBody.insertRow();
+                const subjectName = subjectNames[subjectCode] || "Unknown Subject";
+                row.insertCell().textContent = subjectCode;
+                row.insertCell().textContent = subjectName;
+                row.insertCell().textContent = student.subjects[subjectCode];
+            }
+
+            // Populate GPA calculation table for specific subjects
+            gpaCalculationSubjects.forEach(subjectCode => {
+                const internalMarks = student.subjects[subjectCode];
+                const subjectName = subjectNames[subjectCode] || "Unknown Subject";
+
+                const row = gpaCalculationTableBody.insertRow();
+                row.insertCell().textContent = subjectCode;
+                row.insertCell().textContent = subjectName;
+                row.insertCell().textContent = internalMarks;
+
+                const desiredGpaCell = row.insertCell();
+                const gpaInput = document.createElement("input");
+                gpaInput.type = "number";
+                gpaInput.min = "0";
+                gpaInput.max = "10"; // Max Grade Point
+                gpaInput.value = "7"; // Default desired GPA for example
+                gpaInput.placeholder = "0-10";
+                desiredGpaCell.appendChild(gpaInput);
+
+                const externalMarksCell = row.insertCell();
+                const totalMarksCell = row.insertCell();
+                const remarksCell = row.insertCell();
+
+                // Function to update calculation when input changes
+                const updateCalculation = () => {
+                    const desiredGpaPoint = parseInt(gpaInput.value);
+                    if (!isNaN(desiredGpaPoint) && desiredGpaPoint >= 0 && desiredGpaPoint <= 10) {
+                        const result = calculateRequiredExternalMarks(internalMarks, desiredGpaPoint);
+                        externalMarksCell.textContent = result.externalMarks;
+                        totalMarksCell.textContent = result.totalMarks === "N/A" ? "N/A" : result.totalMarks;
+                        remarksCell.textContent = result.remarks;
+                        if (result.remarks.includes("Impossible")) {
+                            remarksCell.style.color = "#e94560"; // Red for impossible
+                        } else if (result.remarks.includes("Achievable")) {
+                            remarksCell.style.color = "#a4fcff"; // Cyan for easily achievable
+                        }
+                        else {
+                            remarksCell.style.color = "#e0e0e0"; // Default color
+                        }
+                    } else {
+                        externalMarksCell.textContent = "N/A";
+                        totalMarksCell.textContent = "N/A";
+                        remarksCell.textContent = "Invalid GPA Input";
+                        remarksCell.style.color = "#e94560";
+                    }
+                };
+
+                gpaInput.addEventListener("input", updateCalculation);
+                updateCalculation(); // Initial calculation
+            });
+        }
+
+        // Event Listener for Search Button
+        searchButton.addEventListener("click", () => {
+            const enrollment = enrollmentInput.value.trim();
+            const student = studentData.find(s => s.enrollment === enrollment);
+
+            if (student) {
+                displayStudentData(student);
+            } else {
+                studentDetailsSection.style.display = "none";
+                gpaCalculationSection.style.display = "none";
+                errorSection.style.display = "block";
+                errorMessageSpan.textContent = `No student found with Roll Number: ${enrollment}. Please check the number and try again.`;
+            }
+        });
+
+        // Optional: Allow pressing Enter in the input field to search
+        enrollmentInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                searchButton.click();
+            }
+        });
+
+        // Initial state: hide sections
+        studentDetailsSection.style.display = "none";
+        gpaCalculationSection.style.display = "none";
+        errorSection.style.display = "none";
+    </script>
+</body>
+</html>
